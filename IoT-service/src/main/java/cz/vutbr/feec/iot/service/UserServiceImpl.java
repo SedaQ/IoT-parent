@@ -2,6 +2,7 @@ package cz.vutbr.feec.iot.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -17,6 +18,7 @@ import com.google.common.collect.Lists;
 import com.mysema.query.types.Predicate;
 
 import cz.vutbr.feec.iot.dao.UserRepository;
+import cz.vutbr.feec.iot.entity.RoleEntity;
 import cz.vutbr.feec.iot.entity.UserEntity;
 import cz.vutbr.feec.iot.exception.EmailExistsException;
 import cz.vutbr.feec.iot.exception.ServiceLayerException;
@@ -47,17 +49,11 @@ public class UserServiceImpl implements UserService {
    * {@see UserService#findById(Long)}
    */
   @Override
-  public Optional<UserEntity> findById(Long id) {
+  public UserEntity findById(Long id) {
     if (id == null)
       throw new NullPointerException("findById method must have not null id argument to search");
     try {
-      UserEntity userEntity = userRepository.findOne(id);
-      if (userEntity == null) {
-        System.out.println("Vraci OPTIONAL EMPTY, protoze neexistuje");
-        return Optional.empty();
-      } else {
-        return Optional.of(userEntity);
-      }
+      return userRepository.findOne(id);
     } catch (ServiceLayerException ex) { // | NoSuchElementException
       logger.error("findById on service layer: " + ex);
       throw new ServiceLayerException("findById did not find any result: " + ex);
@@ -98,7 +94,7 @@ public class UserServiceImpl implements UserService {
    * {@link UserService#findByEmail(String)}
    */
   @Override
-  public Optional<UserEntity> findByEmail(String email) {
+  public UserEntity findByEmail(String email) {
     if (email == null)
       throw new NullPointerException(
           "findByEmail method must have not null email argument to search");
@@ -106,7 +102,7 @@ public class UserServiceImpl implements UserService {
       throw new IllegalArgumentException(
           "FindByEmail method must have not empty email argument to search");
     try {
-      return Optional.ofNullable(userRepository.findByEmail(email));
+      return userRepository.findByEmail(email);
     } catch (ServiceLayerException ex) { // | NoSuchElementException
       logger.error("findByEmail on service layer: " + ex);
       throw new ServiceLayerException("findByEmail method did not find any result: " + ex);
@@ -117,12 +113,12 @@ public class UserServiceImpl implements UserService {
    * {@inheritDoc}
    */
   @Override
-  public Optional<UserEntity> update(UserEntity userEntity) {
+  public UserEntity update(UserEntity userEntity) {
     if (userEntity == null)
       throw new NullPointerException(
           "update method must have not null userEntity argument to update this entity");
     try {
-      return Optional.ofNullable(userRepository.save(userEntity));
+      return userRepository.save(userEntity);
     } catch (ServiceLayerException ex) { // | NoSuchElementException
       logger.error("update on service layer: " + ex);
       throw new ServiceLayerException("update method occurs some error" + ex);
@@ -149,7 +145,7 @@ public class UserServiceImpl implements UserService {
    * {@inheritDoc}
    */
   @Override
-  public Optional<UserEntity> registerUser(UserEntity userEntity, String unencryptedPassword) {
+  public UserEntity registerUser(UserEntity userEntity, String unencryptedPassword) {
     if (userEntity == null)
       throw new IllegalArgumentException("UserEntity userEntity parameter is null");
     if (unencryptedPassword == null)
@@ -160,7 +156,7 @@ public class UserServiceImpl implements UserService {
     }
     try {
       userEntity.setPasswordHash(userPasswordEncryption.createHash(unencryptedPassword));
-      return Optional.ofNullable(userRepository.save(userEntity));
+      return userRepository.save(userEntity);
     } catch (RuntimeException ex) {
       logger.error("registerUser on service layer: " + ex);
       throw new ServiceLayerException("Problem with registering UserEntity, see inner exception.",
@@ -201,7 +197,26 @@ public class UserServiceImpl implements UserService {
    */
   @Override
   public boolean isAdmin(UserEntity u) {
-    // TODO Auto-generated method stub
+    try {
+      UserEntity userEntity = userRepository.findOne(u.getId());
+      if (userEntity == null) {
+        return false;
+      } else {
+        Set<RoleEntity> roles = userEntity.getRoles();
+        roles.stream().anyMatch(role -> {
+          if (role.getRole() != null) {
+            if (role.getRole().equals("ROLE_ADMIN")) {
+              return true;
+            } ;
+          }
+          return false;
+        });
+      }
+    } catch (ServiceLayerException ex) {
+      logger.error("authenticate on service layer: " + ex);
+      throw new ServiceLayerException(
+          "Problem with authenticating UserEntity, see inner exception.", ex);
+    }
     return false;
   }
 

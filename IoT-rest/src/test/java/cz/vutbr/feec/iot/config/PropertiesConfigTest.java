@@ -7,6 +7,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import cz.vutbr.feec.iot.config.PropertiesConfig;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = PropertiesConfig.class)
 public class PropertiesConfigTest {
@@ -17,6 +19,6 @@ public class PropertiesConfigTest {
   @Test
   public final void givenContextIsInitialized() {
     System.out.println("inTest: " + username);
-    //Assert.assertEquals("vutbrfekt", username);
+    // Assert.assertEquals("vutbrfekt", username);
   }
 }

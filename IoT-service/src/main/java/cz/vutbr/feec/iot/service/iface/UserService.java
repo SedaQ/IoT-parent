@@ -22,7 +22,7 @@ public interface UserService {
    * @param id ID to look for
    * @return Optional with UserEntity if found, else empty
    */
-  Optional<UserEntity> findById(Long id);
+  UserEntity findById(Long id);
 
   /**
    * Returns all user in language school
@@ -44,7 +44,7 @@ public interface UserService {
    * @param email email to search for
    * @return Optional instance, with UserEntity if found, empty otherwise
    */
-  Optional<UserEntity> findByEmail(String email);
+  UserEntity findByEmail(String email);
 
   /**
    * updates given user
@@ -52,7 +52,7 @@ public interface UserService {
    * @param c user that has to be updated
    * @return updated user
    */
-  Optional<UserEntity> update(UserEntity userEntity);
+  UserEntity update(UserEntity userEntity);
 
   /**
    * removes given user
@@ -64,7 +64,7 @@ public interface UserService {
   /**
    * Register the given user with the given unencrypted password.
    */
-  Optional<UserEntity> registerUser(UserEntity userEntity, String unencryptedPassword);
+  UserEntity registerUser(UserEntity userEntity, String unencryptedPassword);
 
   /**
    * Try to authenticate a user. Return true only if the hashed password matches the records.

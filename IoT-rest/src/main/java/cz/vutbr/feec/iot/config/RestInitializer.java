@@ -34,9 +34,11 @@ public class RestInitializer extends AbstractAnnotationConfigDispatcherServletIn
     return new Filter[] {encodingFilter, shallowEtagHeaderFilter};
   }
 
+  /*
   @Override
   public void onStartup(ServletContext servletContext) throws ServletException {
     super.onStartup(servletContext);
     servletContext.addListener(RequestContextListener.class);
   }
+  */
 }

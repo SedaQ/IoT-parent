@@ -25,7 +25,6 @@ import org.springframework.security.web.authentication.rememberme.TokenBasedReme
  */
 @Configuration
 @EnableWebSecurity
-//@Profile("httpBasicAuth")
 public class WebSecurityConfigHttpBasic extends WebSecurityConfigurerAdapter {
 
   @Inject
@@ -55,7 +54,8 @@ public class WebSecurityConfigHttpBasic extends WebSecurityConfigurerAdapter {
     // @formatter:off
 		http
 		    .authorizeRequests()
-		        .antMatchers("/").permitAll()
+		        .antMatchers("/**").permitAll()
+		        .antMatchers(HttpMethod.GET, "/api/rest/**").authenticated()
 		        .antMatchers(HttpMethod.POST, "/api/rest/**").authenticated()
 				.antMatchers(HttpMethod.PUT, "/api/rest/**").authenticated()
 				.antMatchers(HttpMethod.DELETE, "/api/rest/**").authenticated()
