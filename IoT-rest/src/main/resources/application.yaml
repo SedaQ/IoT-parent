@@ -1,0 +1,9 @@
+spring:
+  profiles: httpBasicAuth
+environment: test
+  
+---
+
+spring:
+  profiles: oAuth2
+environment: prod

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Appenders>
+	<Console name="Console-Appender" target="SYSTEM_OUT">
+		<PatternLayout>
+			<pattern>
+				[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n
+			</pattern>
+			>
+		</PatternLayout>
+	</Console>
+	<File name="File-Appender" fileName="${log-path}/better-lawyer.log">
+		<PatternLayout>
+			<pattern>
+				[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n
+			</pattern>
+		</PatternLayout>
+	</File>
+	<RollingFile name="RollingFile-Appender"
+		fileName="${log-path}/better-lawyer-rollingfile.log"
+		filePattern="${archive}/better-lawyer-rollingfile.log.%d{yyyy-MM-dd-hh-mm}.zip">
+		<PatternLayout
+			pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n" />
+		<Policies>
+			<!-- interval="1" == 1 day -->
+			<TimeBasedTriggeringPolicy interval="1"
+				modulate="true" />
+			<SizeBasedTriggeringPolicy size="30 MB" />
+		</Policies>
+		<DefaultRolloverStrategy max="30" />
+	</RollingFile>
+</Appenders>

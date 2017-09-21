@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Loggers>
+	<Logger name="com.cz.better.lawyer" level="debug" additivity="false">
+		<AppenderRef ref="File-Appender" level="error" />
+		<AppenderRef ref="RollingFile-Appender" level="debug" />
+		<AppenderRef ref="Console-Appender" level="info" />
+	</Logger>
+	<Root level="debug">
+		<AppenderRef ref="Console-Appender" />
+	</Root>
+</Loggers>
