@@ -56,9 +56,17 @@ public class UserFacadeImpl implements UserFacade {
       throw new IllegalArgumentException("Id cannot be lower than zero.");
     try {
       Optional<UserEntity> userEntity = userService.findById(id);
-      return userEntity.isPresent()
-          ? Optional.ofNullable(beanMapping.mapTo(userEntity.get(), UserDTO.class))
-          : Optional.empty();
+      if(userEntity == null){
+        System.out.println("USER ENTITY JE NULL");
+      }
+      if (userEntity.isPresent()) {
+        return beanMapping.mapToOptional(userEntity.get(), UserDTO.class);
+      } else {
+        return Optional.empty();
+      }
+      // return userEntity.isPresent()
+      // ? Optional.ofNullable(beanMapping.mapTo(userEntity.get(), UserDTO.class))
+      // : Optional.empty();
     } catch (FacadeLayerException | NoSuchElementException ex) {
       logger.warn("findById method invokes exception: " + ex);
       return Optional.empty();
@@ -105,8 +113,7 @@ public class UserFacadeImpl implements UserFacade {
       throw new IllegalArgumentException("Email cannot be empty to search by findByEmail method");
     try {
       Optional<UserEntity> userEntity = userService.findByEmail(email);
-      return userEntity.isPresent()
-          ? Optional.ofNullable(beanMapping.mapTo(userEntity.get(), UserDTO.class))
+      return userEntity.isPresent() ? beanMapping.mapToOptional(userEntity.get(), UserDTO.class)
           : Optional.empty();
     } catch (FacadeLayerException | NoSuchElementException ex) {
       logger.warn("findByEmail method invokes exception: " + ex);
@@ -125,8 +132,7 @@ public class UserFacadeImpl implements UserFacade {
     try {
       Optional<UserEntity> userEntity =
           userService.update(beanMapping.mapTo(userDTO, UserEntity.class));
-      return userEntity.isPresent()
-          ? Optional.ofNullable(beanMapping.mapTo(userEntity.get(), UserDTO.class))
+      return userEntity.isPresent() ? beanMapping.mapToOptional(userEntity.get(), UserDTO.class)
           : Optional.empty();
     } catch (FacadeLayerException | NoSuchElementException ex) {
       logger.warn("update method invokes exception: " + ex);
@@ -163,9 +169,9 @@ public class UserFacadeImpl implements UserFacade {
       Optional<UserEntity> userEntity = userService
           .registerUser(beanMapping.mapTo(userDTO, UserEntity.class), unencryptedPassword);
       // podivat se na tuhle cast kodu jeste a vyoptimalizovat to...
-      userDTO.setId(userEntity.get().getId());
-      return userEntity.isPresent()
-          ? Optional.ofNullable(beanMapping.mapTo(userEntity.get(), UserDTO.class))
+      if (userEntity.isPresent())
+        userDTO.setId(userEntity.get().getId());
+      return userEntity.isPresent() ? beanMapping.mapToOptional(userEntity.get(), UserDTO.class)
           : Optional.empty();
     } catch (FacadeLayerException | NoSuchElementException ex) {
       logger.warn("registerUser method invokes exception: " + ex);

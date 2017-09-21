@@ -17,22 +17,22 @@ import cz.vutbr.feec.iot.validation.PasswordMatchesValidator;
 @Configuration
 @EnableTransactionManagement
 @Import(ServiceConfiguration.class)
-@ComponentScan(basePackages = { ConfigStrings.FACADE, ConfigStrings.MAPPING })
+@ComponentScan(basePackages = {ConfigStrings.FACADE, ConfigStrings.MAPPING})
 public class FacadeConfiguration {
 
-	@Bean
-	public ModelMapper modelMapper() {
-		return new ModelMapper();
-	}
+  @Bean
+  public ModelMapper modelMapper() {
+    return new ModelMapper();
+  }
 
-	@Bean
-	public EmailValidator usernameValidator() {
-		return new EmailValidator();
-	}
+  @Bean
+  public EmailValidator usernameValidator() {
+    return new EmailValidator();
+  }
 
-	@Bean
-	public PasswordMatchesValidator passwordMatchesValidator() {
-		return new PasswordMatchesValidator();
-	}
+  @Bean
+  public PasswordMatchesValidator passwordMatchesValidator() {
+    return new PasswordMatchesValidator();
+  }
 
 }

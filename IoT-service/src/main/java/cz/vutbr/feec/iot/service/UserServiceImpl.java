@@ -51,7 +51,13 @@ public class UserServiceImpl implements UserService {
     if (id == null)
       throw new NullPointerException("findById method must have not null id argument to search");
     try {
-      return Optional.ofNullable(userRepository.findOne(id));
+      UserEntity userEntity = userRepository.findOne(id);
+      if (userEntity == null) {
+        System.out.println("Vraci OPTIONAL EMPTY, protoze neexistuje");
+        return Optional.empty();
+      } else {
+        return Optional.of(userEntity);
+      }
     } catch (ServiceLayerException ex) { // | NoSuchElementException
       logger.error("findById on service layer: " + ex);
       throw new ServiceLayerException("findById did not find any result: " + ex);

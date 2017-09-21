@@ -14,6 +14,10 @@ import cz.vutbr.feec.iot.service.iface.UserService;
 import static org.testng.Assert.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * @author Pavel Šeda
+ *
+ */
 public class UserServiceTest {
 
   @Mock

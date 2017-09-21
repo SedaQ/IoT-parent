@@ -4,6 +4,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 
+/**
+ * 
+ * @author Pavel Šeda
+ *
+ */
 public class Log4J2XMLConfTest {
 
   private static Logger logger = LogManager.getLogger();
