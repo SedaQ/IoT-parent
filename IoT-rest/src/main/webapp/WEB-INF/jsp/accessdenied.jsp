@@ -2,9 +2,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Error page</title>
+<title>Access denied page</title>
 </head>
 <body>
+	<h2>Sorry, you do not have permission to view this page.</h2>
 
 </body>
 </html>

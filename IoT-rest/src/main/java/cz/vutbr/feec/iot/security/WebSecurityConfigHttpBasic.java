@@ -43,11 +43,11 @@ public class WebSecurityConfigHttpBasic extends WebSecurityConfigurerAdapter {
 		// @formatter:on
   }
 
-  /*
-   * @Override public void configure(WebSecurity web) throws Exception {
-   * web.ignoring().antMatchers("/assets/**", "/v2/api-docs", "/configuration/ui",
-   * "/swagger-resources", "/configuration/security", "/swagger-ui.html", "/webjars/**"); }
-   */
+  @Override
+  public void configure(WebSecurity web) throws Exception {
+    web.ignoring().antMatchers("/assets/**", "/v2/api-docs", "/configuration/ui",
+        "/swagger-resources", "/configuration/security", "/swagger-ui.html", "/webjars/**");
+  }
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
@@ -79,6 +79,7 @@ public class WebSecurityConfigHttpBasic extends WebSecurityConfigurerAdapter {
 				// .deleteCookies("JSSESSIONID","remember-me")
 				// .and()
 			.exceptionHandling()
+			    .accessDeniedPage("/errorpage")
 			    .and()
 			.csrf();
 	// @formatter:on
