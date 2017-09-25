@@ -49,7 +49,8 @@ public class PersistenceApplicationContext {
 
     jpaFactoryBean.setLoadTimeWeaver(instrumentationLoadTimeWeaver());
     jpaFactoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
-    jpaFactoryBean.setPersistenceXmlLocation("classpath:META-INF/persistence.xml");
+    // jpaFactoryBean.setPersistenceXmlLocation("classpath:META-INF/persistence.xml");
+    jpaFactoryBean.setPersistenceXmlLocation("classpath:META-INF/persistence-postgresql.xml");
     jpaFactoryBean.setPersistenceUnitName("persistenceProduction");
     return jpaFactoryBean;
   }
